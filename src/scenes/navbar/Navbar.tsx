@@ -65,7 +65,6 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                 className="rounded-full bg-secondary-500 p-2"
                 onClick={() => {
                   setIsMenuToggled(!isMenuToggled);
-                  console.log("Clicked");
                 }}
               >
                 <Bars3Icon className="h-6 w-6 text-white" />
