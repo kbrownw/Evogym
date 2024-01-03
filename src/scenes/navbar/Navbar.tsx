@@ -5,6 +5,7 @@ import NavbarLinks from "./NavbarLinks";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ActionButton from "@/shared/ActionButton";
+import { motion } from "framer-motion";
 
 type Props = {
   isTopOfPage: boolean;
@@ -62,7 +63,10 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
             ) : (
               <button
                 className="rounded-full bg-secondary-500 p-2"
-                onClick={() => setIsMenuToggled(!isMenuToggled)}
+                onClick={() => {
+                  setIsMenuToggled(!isMenuToggled);
+                  console.log("Clicked");
+                }}
               >
                 <Bars3Icon className="h-6 w-6 text-white" />
               </button>
@@ -71,8 +75,17 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
         </div>
       </div>
       {/* MOBILE MENU MODAL */}
-      {!isAboveMediuScreens && isMenuToggled && (
-        <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
+      {!isAboveMediuScreens && (
+        <motion.div
+          animate={isMenuToggled ? "visible" : ["hidden", "removed"]}
+          transition={{ duration: 0.2 }}
+          variants={{
+            hidden: { opacity: 0, x: 100 },
+            visible: { opacity: 1, x: 0, zIndex: 40 },
+            removed: { display: "none", transition: { delay: 0.2 } },
+          }}
+          className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl"
+        >
           {/* CLOSE ICON */}
           <div className="flex justify-end p-12">
             <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
@@ -100,13 +113,13 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
               setIsMenuToggled={setIsMenuToggled}
             />
             <NavbarLinks
-              page="Contact Use"
+              page="Contact Us"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
               setIsMenuToggled={setIsMenuToggled}
             />
           </div>
-        </div>
+        </motion.div>
       )}
     </nav>
   );
